@@ -1,0 +1,21 @@
+{
+  "name": "assignment",
+  "version": "0.0.0",
+  "authors": [
+    "Grégoire Charvet <greg@geekingfrog.com>"
+  ],
+  "description": "Small node + mongodb assignment for Digbil",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {
+    "lodash": "~2.2.1",
+    "raphael": "~2.1.2",
+    "jquery": "~2.0.3"
+  }
+}

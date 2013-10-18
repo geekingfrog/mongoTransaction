@@ -30,12 +30,20 @@ module.exports = function(grunt) {
     watch: {
       files: ['<%= jshint.files %>'],
       tasks: ['jshint']//, 'exec:vows']
+    },
+    bower: {
+      install: {
+        options: {
+          targetDir: './uml/lib'
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-exec');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-bower-task');
 
-  grunt.registerTask('default', ['jshint', 'watch']);
+  grunt.registerTask('default', ['bower', 'jshint', 'watch']);
 };
