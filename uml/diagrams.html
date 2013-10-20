@@ -87,6 +87,25 @@
       App->Transaction: Set transaction to 'done'
     </div>
 
+
+    <h2>Rollback</h2>
+    <p>
+      If the transaction is in the 'DONE' state, it cannot be rollbacked. To cancel its effect, create
+      and execute another transaction with the opposite effect.
+    </p>
+    <p>
+      Otherwise, set the transaction's state to 'Cancelling', undo the transaction and then set the transaction's
+      state to 'Cancelled'.
+    </p>
+
+    <div class="diagram">
+      Title: rollback
+      App->Transaction: Set transaction to 'cancelling'
+      App->A: Increase balance and remove transaction from the list
+      App->B: Decrease balance and remove transaction from the list
+      App->Transaction: Set transaction to 'cancelled'
+    </div>
+
     <script> 
       // $('#idealCase').sequenceDiagram({theme: 'simple'});
       $('.diagram').each(function() {

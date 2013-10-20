@@ -14,4 +14,6 @@ To run the test, you need to have `grunt` installed.
 sudo npm install -g grunt-cli
 npm install
 ```
-If one only wants to run the tests: `npm test`
+If one only wants to run the tests: `npm test`.
+Some diagrams describing the different usecases can be found [in the uml folder](file:///./uml/diagrams.html).
+
