@@ -4,6 +4,12 @@
 
     <title>UML diagrams for different usecases</title>
 
+    <style type="text/css" media="">
+      p {
+        max-width: 800px;
+      }
+    </style>
+
   </head>
 
   <body>
@@ -13,21 +19,81 @@
     <script src="./lib/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
     <script src="./lib/sequence-diagram-min.js" type="text/javascript" charset="utf-8"></script>
 
-    <div id="idealCase">
-      Title: Ideal case: transfert(A, B, 10)
+    <h1>Transfer of money from A to B</h1>
+    <p>There can be multiple application accessing the database at the same time.
+      There can also be failure of an application or the database.</p>
+
+    <p>An account has the following fieds: </p>
+
+    <ul>
+      <li>_id: mongodb's generated ID</li>
+      <li>account_number</li>
+      <li>balance: can be negative.</li>
+      <li>pending_transactions: List of transactions' ids to be applied to this account.</li>
+    </ul>
+
+    <h2>Ideal case, no failure</h2>
+
+    <div class="diagram">
+      Title: Ideal case: transfer(A, B, 10)
       App->Transaction: Create transaction
       Note right of Transaction: Transaction created in state 'initial'
-      App->Transaction: Set transaction to pending
+      App->Transaction: Set transaction to 'pending'
       App->A: decrease balance and add transaction to list of pending tr
       App->B: increase balance and add transaction to list of pending tr
-      App->Transaction: Set transaction to 'comitted'
+      App->Transaction: Set transaction to 'committed'
       App->A: remove transaction from the list
       App->B: remove transaction from the list
       App->Transaction: Set transaction to 'done'
     </div>
+
+    <h2>Failure case 1: cannot increase/decrease balance on an account or cannot set transaction to 'committed'</h2>
+    <p>For whatever reason, one of the operation on an account fails.</p>
+
+    <h3>Recoverable error</h3>
+    <p>If possible, recover from the error (eg: database failure).</p>
+    <p>
+      In this case, the application can identify the transaction in 'pending' state, and try to apply
+      again the changes, provided the transaction's id is not in the list of pending transactions for an account.
+    </p>
+
+
+    <div class="diagram">
+      title: Recovery
+      App->Transaction: Create transaction
+      App->Transaction: Set transaction to 'pending'
+      App->A: decrease balance and add transaction to list of pending tr
+      App->B: Increase B's balance and add transaction to the list
+      B-->App: Error when updating B's account or adding transaction
+      Note over App: Recover from the error
+      App->A: Do nothing since the transaction's id \nis in the list of pending transaction
+      App->B: Decrease balance and add transaction \n to the list of pending transactions
+      App->Transaction: Set transaction to 'committed'
+      Note over Transaction: Resume with normal sequence
+    </div>
+
+    <h3>Failure case 2: cannot remove transaction from pending's list or set transaction to 'done'</h3>
+    <p>In the same fashion as the previous example, this error is recoverable.</p>
+
+    <div class="diagram">
+      title: Recovery'
+      App->Transaction: Set transaction to 'committed'
+      App->A: Remove transaction from the list
+      App->B: Remove transaction from the list
+      B-->App: Error
+      Note over App: Recover
+      App-->A: Do nothing, transaction already removed
+      App->B: Remove transaction
+      App->Transaction: Set transaction to 'done'
+    </div>
+
     <script> 
-      $('#idealCase').sequenceDiagram({theme: 'simple'});
+      // $('#idealCase').sequenceDiagram({theme: 'simple'});
+      $('.diagram').each(function() {
+        $(this).sequenceDiagram({theme: 'simple'});
+      });
     </script>
+
 
   </body>
 </html>
