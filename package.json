@@ -16,5 +16,9 @@
     "vows": "~0.7.0",
     "grunt-exec": "~0.4.2",
     "grunt-bower-task": "~0.3.2"
+  },
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "./node_modules/vows/bin/vows test/*-test.js --spec -v"
   }
 }
