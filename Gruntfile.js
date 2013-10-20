@@ -11,16 +11,6 @@ module.exports = function(grunt) {
       }
     },
     exec: {
-      echo_name: {
-        cmd: function(firstName, lastName) {
-          var formattedName = [
-            lastName.toUpperCase(),
-            firstName.toUpperCase()
-          ].join(', ');
-
-          return 'echo ' + formattedName;
-        } 
-      },
       vows: {
         cmd: function() {
           return './node_modules/vows/bin/vows test/*-test.js --spec --color';
@@ -29,7 +19,7 @@ module.exports = function(grunt) {
     },
     watch: {
       files: ['<%= jshint.files %>'],
-      tasks: ['jshint']//, 'exec:vows']
+      tasks: ['jshint', 'exec:vows']
     },
     bower: {
       install: {
@@ -45,5 +35,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-bower-task');
 
-  grunt.registerTask('default', ['bower', 'jshint', 'watch']);
+  grunt.registerTask('default', ['bower', 'jshint', 'exec:vows', 'watch']);
 };
