@@ -15,5 +15,5 @@ sudo npm install -g grunt-cli
 npm install
 ```
 If one only wants to run the tests: `npm test`.
-Some diagrams describing the different usecases can be found [in the uml folder](file:///./uml/diagrams.html).
+Some diagrams describing the different usecases can be found [in the uml folder](./uml/diagrams.html).
 
